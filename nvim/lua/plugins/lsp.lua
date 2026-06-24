@@ -22,25 +22,28 @@ return {
     },
     config = function()
       -- Define LSP keymaps when a language server attaches to a buffer
-      local on_attach = function(client, bufnr)
-        local opts = { buffer = bufnr, silent = true }
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+        callback = function(args)
+          local bufnr = args.buf
 
-        -- Helper to add descriptions for Which-Key
-        local map = function(keys, func, desc)
-          vim.keymap.set("n", keys, func, { buffer = bufnr, silent = true, desc = "LSP: " .. desc })
-        end
+          -- Helper to add descriptions for Which-Key
+          local map = function(keys, func, desc)
+            vim.keymap.set("n", keys, func, { buffer = bufnr, silent = true, desc = "LSP: " .. desc })
+          end
 
-        map("gd", vim.lsp.buf.definition, "Go to definition")
-        map("gD", vim.lsp.buf.declaration, "Go to declaration")
-        map("gi", vim.lsp.buf.implementation, "Go to implementation")
-        map("gr", require("telescope.builtin").lsp_references, "Find references")
-        map("K", vim.lsp.buf.hover, "Hover documentation")
-        map("<leader>cr", vim.lsp.buf.rename, "Rename symbol")
-        map("<leader>ca", vim.lsp.buf.code_action, "Code actions")
-        map("<leader>cd", vim.diagnostic.open_float, "Show line diagnostics")
-        map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-        map("]d", vim.diagnostic.goto_next, "Next diagnostic")
-      end
+          map("gd", vim.lsp.buf.definition, "Go to definition")
+          map("gD", vim.lsp.buf.declaration, "Go to declaration")
+          map("gi", vim.lsp.buf.implementation, "Go to implementation")
+          map("gr", require("telescope.builtin").lsp_references, "Find references")
+          map("K", vim.lsp.buf.hover, "Hover documentation")
+          map("<leader>cr", vim.lsp.buf.rename, "Rename symbol")
+          map("<leader>ca", vim.lsp.buf.code_action, "Code actions")
+          map("<leader>cd", vim.diagnostic.open_float, "Show line diagnostics")
+          map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+          map("]d", vim.diagnostic.goto_next, "Next diagnostic")
+        end,
+      })
 
       -- Make sure autocompletion capabilities are integrated
       local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -89,31 +92,18 @@ return {
         automatic_installation = true,
       })
 
-      -- Configure each individual server
-      local lspconfig = require("lspconfig")
+      -- Configure each individual server using native Neovim 0.11+ APIs
+      local servers = { "pyright", "clangd", "bashls" }
+      for _, server in ipairs(servers) do
+        vim.lsp.config(server, {
+          capabilities = capabilities,
+        })
+        vim.lsp.enable(server)
+      end
 
-      -- 1. Python
-      lspconfig.pyright.setup({
+      -- Lua has additional settings
+      vim.lsp.config("lua_ls", {
         capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      -- 2. C/C++
-      lspconfig.clangd.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      -- 3. Bash/Shell
-      lspconfig.bashls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      -- 4. Lua
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           Lua = {
             diagnostics = {
@@ -129,6 +119,7 @@ return {
           },
         },
       })
+      vim.lsp.enable("lua_ls")
     end,
   },
 }
