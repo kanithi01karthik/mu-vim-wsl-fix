@@ -42,7 +42,7 @@ return {
   -- --- 2. Statusline: Lualine ---
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin" },
     config = function()
       require("lualine").setup({
         options = {
@@ -68,7 +68,7 @@ return {
   -- --- 3. Dashboard: Alpha-nvim ---
   {
     "goolord/alpha-nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin" },
     config = function()
       local alpha = require("alpha")
       local dashboard = require("alpha.themes.dashboard")
