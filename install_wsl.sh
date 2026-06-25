@@ -58,5 +58,5 @@ if [ -f "./install_ubuntu.sh" ]; then
   chmod +x ./install_ubuntu.sh
   ./install_ubuntu.sh
 else
-  curl -fsSL https://raw.githubusercontent.com/Opensource-NITJ/mu-vim/main/install_ubuntu.sh | bash
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Opensource-NITJ/mu-vim/main/install_ubuntu.sh)"
 fi

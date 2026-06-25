@@ -73,7 +73,7 @@ if [[ "$OS_TYPE" == "linux" ]]; then
 
   log_step "Updating package lists (requires sudo)"
   # Clean up any previously added broken neovim PPAs that would cause update to fail
-  sudo rm -f /etc/apt/sources.list.d/neovim-ppa-*.list
+  sudo rm -f /etc/apt/sources.list.d/neovim-ppa-*
   sudo apt-get update -y
 
   # Install Git, Curl, Unzip, Zsh, and add-apt-repository support
@@ -100,18 +100,18 @@ if [[ "$OS_TYPE" == "linux" ]]; then
       if ! sudo add-apt-repository -y ppa:neovim-ppa/stable || ! sudo apt-get update -y || ! sudo apt-get install -y neovim; then
         log_warn "Neovim PPA unavailable or failed. Falling back to pre-built binary."
         # Clean up potentially broken PPA list
-        sudo rm -f /etc/apt/sources.list.d/neovim-ppa-*.list
+        sudo rm -f /etc/apt/sources.list.d/neovim-ppa-*
         sudo apt-get update -y || true
-        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-        sudo tar -C /usr/local -xzf nvim-linux64.tar.gz --strip-components=1
-        rm nvim-linux64.tar.gz
+        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+        sudo tar -C /usr/local -xzf nvim-linux-x86_64.tar.gz --strip-components=1
+        rm nvim-linux-x86_64.tar.gz
       fi
     else
       # Debian fallback: Install pre-built stable binary
       log_step "Installing pre-built Neovim binary for Debian"
-      curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-      sudo tar -C /usr/local -xzf nvim-linux64.tar.gz --strip-components=1
-      rm nvim-linux64.tar.gz
+      curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+      sudo tar -C /usr/local -xzf nvim-linux-x86_64.tar.gz --strip-components=1
+      rm nvim-linux-x86_64.tar.gz
     fi
     log_success "Neovim installed successfully"
   fi
