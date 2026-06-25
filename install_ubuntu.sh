@@ -72,6 +72,8 @@ if [[ "$OS_TYPE" == "linux" ]]; then
   fi
 
   log_step "Updating package lists (requires sudo)"
+  # Clean up any previously added broken neovim PPAs that would cause update to fail
+  sudo rm -f /etc/apt/sources.list.d/neovim-ppa-*.list
   sudo apt-get update -y
 
   # Install Git, Curl, Unzip, Zsh, and add-apt-repository support
