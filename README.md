@@ -27,7 +27,7 @@ Windows users have two paths to run `mu-vim`. We strongly recommend the **WSL2**
 | **Mason LSPs**     | ✓                     | ✓                                  | ⚠ Some require manual Windows SDKs  | ✓                                |
 | **Starship**       | ✓                     | ✓ via curl                         | ✓ via scoop                         | ✓                                |
 | **Copilot + Chat** | ✓                     | ✓                                  | ✓                                   | ✓                                |
-| **Install Script** | `install.sh`          | `install_fedora.sh`                | `install.ps1`                       | `install_wsl.sh`                 |
+| **Install Script** | `install_ubuntu.sh`   | `install_fedora.sh`                | `install.ps1`                       | `install_wsl.sh`                 |
 | **Nerd Fonts**     | ✓ via apt             | ✓ via curl + unzip                 | ⚠ manual or scoop                   | Windows-side install             |
 
 **Verdict:** **WSL2** is a first-class, fully supported environment. Native Windows is supported but debuggers and complex LSPs may require manual host compiler setups (MSVC or MinGW).
@@ -53,7 +53,7 @@ Select the command corresponding to your operating system and paste it into your
 
 #### Linux (Debian/Ubuntu) & macOS
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Opensource-NITJ/mu-vim/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Opensource-NITJ/mu-vim/main/install_ubuntu.sh | bash
 ```
 
 #### Linux (Fedora/RHEL/CentOS/Rocky/Alma)

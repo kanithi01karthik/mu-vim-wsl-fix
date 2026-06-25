@@ -5,7 +5,7 @@
 # =============================================================================
 # A wrapper script specifically for Windows Subsystem for Linux (WSL2).
 # Validates that WSL2 is active, reminds the user to run WezTerm on the Windows
-# host side, and delegates the remaining installations to install.sh.
+# host side, and delegates the remaining installations to install_ubuntu.sh.
 # =============================================================================
 
 set -e
@@ -20,7 +20,7 @@ NC='\033[0m' # No Color
 # Check if we are running inside WSL at all
 if ! grep -q -i "microsoft" /proc/version; then
   echo -e "${RED}[!] ERROR: This script is intended to run inside WSL (Windows Subsystem for Linux) only.${NC}"
-  echo -e "If you are on pure Linux or macOS, run ${GREEN}./install.sh${NC} instead."
+  echo -e "If you are on pure Linux or macOS, run ${GREEN}./install_ubuntu.sh${NC} instead."
   exit 1
 fi
 
@@ -53,6 +53,10 @@ log_step() {
   echo -e "${BLUE}[→]${NC} $1"
 }
 
-log_step "Delegating setup to main Linux installer (install.sh)..."
-chmod +x ./install.sh
-./install.sh
+log_step "Delegating setup to main Linux installer (install_ubuntu.sh)..."
+if [ -f "./install_ubuntu.sh" ]; then
+  chmod +x ./install_ubuntu.sh
+  ./install_ubuntu.sh
+else
+  curl -fsSL https://raw.githubusercontent.com/Opensource-NITJ/mu-vim/main/install_ubuntu.sh | bash
+fi

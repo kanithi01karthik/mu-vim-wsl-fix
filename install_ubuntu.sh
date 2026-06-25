@@ -95,9 +95,15 @@ if [[ "$OS_TYPE" == "linux" ]]; then
     # Detect if Ubuntu or pure Debian
     if grep -q "Ubuntu" /etc/os-release; then
       log_step "Adding Neovim stable PPA"
-      sudo add-apt-repository -y ppa:neovim-ppa/stable
-      sudo apt-get update -y
-      sudo apt-get install -y neovim
+      if ! sudo add-apt-repository -y ppa:neovim-ppa/stable || ! sudo apt-get update -y || ! sudo apt-get install -y neovim; then
+        log_warn "Neovim PPA unavailable or failed. Falling back to pre-built binary."
+        # Clean up potentially broken PPA list
+        sudo rm -f /etc/apt/sources.list.d/neovim-ppa-*.list
+        sudo apt-get update -y || true
+        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+        sudo tar -C /usr/local -xzf nvim-linux64.tar.gz --strip-components=1
+        rm nvim-linux64.tar.gz
+      fi
     else
       # Debian fallback: Install pre-built stable binary
       log_step "Installing pre-built Neovim binary for Debian"

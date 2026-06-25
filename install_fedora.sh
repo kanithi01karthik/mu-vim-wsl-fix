@@ -2,7 +2,7 @@
 # =============================================================================
 # INSTALL-FEDORA.SH
 # =============================================================================
-# Unofficial Fedora/RHEL-family port of mu-vim's install.sh
+# Unofficial Fedora/RHEL-family port of mu-vim's install_ubuntu.sh
 # (https://github.com/Opensource-NITJ/mu-vim). Upstream only supports
 # Debian/Ubuntu and macOS, so this re-implements the same steps using dnf.
 # Tested logic for: Fedora. Should also work on RHEL/CentOS/Rocky/Alma
